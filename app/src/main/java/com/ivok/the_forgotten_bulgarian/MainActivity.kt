@@ -16,5 +16,9 @@ class MainActivity : AppCompatActivity() {
         binding.buttonLogin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
+
+        binding.buttonPlay.setOnClickListener {
+            startActivity(Intent(this, RouteMapActivity::class.java))
+        }
     }
 }
