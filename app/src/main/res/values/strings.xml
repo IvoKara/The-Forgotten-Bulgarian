@@ -3,4 +3,7 @@
     <string name="app_name_bg">Забравѣният български</string>
     <string name="play">Play</string>
     <string name="login">Login</string>
+    <string name="login_bg">Вход</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 </resources>
