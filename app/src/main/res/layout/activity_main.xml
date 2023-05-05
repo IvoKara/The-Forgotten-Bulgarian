@@ -77,7 +77,7 @@
             android:adjustViewBounds="true"
             android:padding="2dp"
             android:scaleType="centerInside"
-            android:src="@drawable/simple_ornamental_divider"
+            android:src="@drawable/ornamental_simple_divider"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
