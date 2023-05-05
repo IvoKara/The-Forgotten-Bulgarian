@@ -2,15 +2,34 @@
     <!-- Base application theme. -->
     <style name="Theme.TheForgottenBulgarian" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryVariant">@color/neutral_800</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">@color/red_brown_700</item>
+        <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorOnPrimary">@color/antique_white_400</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/antique_white_300</item>
-        <item name="colorSecondaryVariant">@color/antique_white_400</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/antique_white_400</item>
+        <item name="colorSecondaryVariant">@color/wheat_400</item>
+        <item name="colorOnSecondary">@color/red_brown_700</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <!--Navigation bar color. -->
+        <item name="android:navigationBarColor">@color/transparent</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
         <!-- Customize your theme here. -->
+        <!-- <item name="colorOnBackground">@color/red_brown_700</item> -->
+        <!-- <item name="android:backgroundTint">@color/antique_white_300</item> -->
+        <item name="android:backgroundTint">@color/antique_white_300</item>
+        <item name="materialButtonStyle">@style/ButtonColour</item>
     </style>
+
+    <style name="ButtonColour" parent="Theme.TheForgottenBulgarian">
+        <item name="android:backgroundTint">@color/red_brown_700</item>
+        <item name="android:textColor">@color/antique_white_300</item>
+        <item name="android:paddingHorizontal" tools:ignore="NewApi">25sp</item>
+        <item name="android:paddingVertical" tools:ignore="NewApi">10sp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/alegreya</item>
+        <item name="cornerRadius">25dp</item>
+    </style>
+
 </resources>

@@ -6,50 +6,82 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="25dp"
         tools:context=".MainActivity">
+
+        <ImageView
+            android:id="@+id/top_frame_border"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:paddingHorizontal="8dp"
+            android:paddingTop="4dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ornamental_top_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_app_name"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:autoSizeTextType="uniform"
+            android:layout_height="110dp"
+            android:layout_marginHorizontal="20sp"
+            android:autoSizeMaxTextSize="70sp"
             android:autoSizeMinTextSize="12sp"
-            android:autoSizeMaxTextSize="40sp"
+            android:autoSizeTextType="uniform"
             android:fontFamily="@font/monomachus"
+            android:gravity="center"
             android:text="@string/app_name_bg"
-            android:textColor="@color/black"
+            android:textColor="@color/red_brown_700"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.189" />
+            app:layout_constraintTop_toBottomOf="@+id/top_frame_border"
+            app:layout_constraintVertical_bias="0.108" />
 
-        <Button
-            android:id="@+id/button_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
-            android:text="@string/play"
-            android:theme="@style/Theme.Material3.Light"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_app_name"
-            app:layout_constraintVertical_bias="0.15" />
+        <LinearLayout
+            android:id="@+id/linear_button_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginVertical="10dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:flow_verticalAlign="center"
+            app:layout_constraintBottom_toTopOf="@id/bottom_devider"
+            app:layout_constraintTop_toBottomOf="@id/text_app_name">
 
-        <Button
-            android:id="@+id/button_login"
-            android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/button_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40sp"
+                android:fontFamily="@font/alegreya"
+                android:text="@string/play"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/button_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/bottom_devider"
+            android:layout_width="150sp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
-            android:text="@string/login"
-            android:theme="@style/Theme.Material3.Light"
+            android:layout_marginBottom="28dp"
+            android:adjustViewBounds="true"
+            android:padding="2dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/simple_ornamental_divider"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_play"
-            app:layout_constraintVertical_bias="0.15" />
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
