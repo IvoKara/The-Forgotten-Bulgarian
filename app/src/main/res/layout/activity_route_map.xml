@@ -16,16 +16,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ScrollView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="851dp"
-                android:layout_height="1101dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:contentDescription="Bulgarian Map"
-                android:src="@drawable/bg_geo_map"
-                tools:layout_editor_absoluteX="-270dp"
-                tools:layout_editor_absoluteY="-121dp" />
+                android:src="@drawable/bg_geo_map" />
         </ScrollView>
     </HorizontalScrollView>
 
