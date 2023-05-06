@@ -1,8 +1,9 @@
 package com.ivok.the_forgotten_bulgarian
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.PorterDuff
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 
@@ -21,4 +22,14 @@ fun appearToast(context: Context, message: String) {
         view?.background?.setColorFilter(backgroundColor, PorterDuff.Mode.SRC_IN)
         show()
     }
+}
+
+fun showLoadingOverlay(progressBar: ProgressBar, overlay: View) {
+    progressBar.visibility = View.VISIBLE
+    overlay.visibility = View.VISIBLE
+}
+
+fun hideLoadingOverlay(progressBar: ProgressBar, overlay: View) {
+    progressBar.visibility = View.GONE
+    overlay.visibility = View.GONE
 }

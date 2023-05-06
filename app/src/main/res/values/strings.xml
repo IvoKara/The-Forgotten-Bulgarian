@@ -17,4 +17,6 @@
     <string name="bottom_divider_ornamental">Bottom Devider Ornamental</string>
     <string name="top_border_ornamental">Top Border Ornamental</string>
     <string name="dont_have_an_account_bg">Нѣмаш профил?</string>
+    <string name="profile">Profile</string>
+    <string name="sign_out">Sign Out</string>
 </resources>
