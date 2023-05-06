@@ -4,7 +4,12 @@
     <string name="play">Play</string>
     <string name="login">Login</string>
     <string name="login_bg">Вход</string>
+    <string name="register">Register</string>
+    <string name="register_bg">Регистрация</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="enter_bg">Влез</string>
+    <string name="register_bg_extended">Регистрирай се</string>
+    <string name="username">Username</string>
+    <string name="confirm_password">Confirm Password</string>
 </resources>
