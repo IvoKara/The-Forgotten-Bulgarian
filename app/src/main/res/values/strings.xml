@@ -12,4 +12,8 @@
     <string name="register_bg_extended">Регистрирай се</string>
     <string name="username">Username</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="right_corner_ornamental">Right Corner Ornamental</string>
+    <string name="left_corner_ornamental">Left Corner Ornamental</string>
+    <string name="bottom_divider_ornamental">Bottom Devider Ornamental</string>
+    <string name="top_border_ornamental">Top Border Ornamental</string>
 </resources>
