@@ -20,6 +20,10 @@
         <!-- <item name="android:backgroundTint">@color/antique_white_300</item> -->
         <item name="android:backgroundTint">@color/antique_white_300</item>
         <item name="materialButtonStyle">@style/ButtonColour</item>
+        <item name="android:textColor">@color/red_brown_700</item>
+        <item name="android:fontFamily">@font/alegreya</item>
+        <item name="android:textColorHighlight">@color/antique_white_300</item>
+        <item name="android:textColorLink">@color/antique_white_600</item>
     </style>
 
     <style name="ButtonColour" parent="Theme.TheForgottenBulgarian">
