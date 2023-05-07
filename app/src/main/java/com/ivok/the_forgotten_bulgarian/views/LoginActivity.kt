@@ -39,6 +39,8 @@ class LoginActivity : AuthCompatActivity<ActivityLoginBinding>
         initFocusListenerForEmail()
         initFocusListenerForPassword()
         setSubmitButtonListener()
+
+        binding.loginEmail.requestFocus()
     }
 
     private fun setSubmitButtonListener() {

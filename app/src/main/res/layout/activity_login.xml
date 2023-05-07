@@ -103,6 +103,16 @@
                         app:layout_constraintTop_toBottomOf="@+id/image_wrapper"
                         tools:layout_editor_absoluteX="0dp">
 
+                        <LinearLayout
+                            android:id="@+id/dummy_focus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:orientation="vertical"/>
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/login_email_layout"
                             android:layout_width="match_parent"
@@ -116,7 +126,9 @@
                                 android:id="@+id/login_email"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/email" />
+                                android:hint="@string/email"
+                                android:imeOptions="actionNext"
+                                android:nextFocusDown="@id/login_password" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -204,6 +216,6 @@
             android:layout_height="match_parent"
             android:background="#40000000"
             android:backgroundTintMode="multiply"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </RelativeLayout>
 </layout>
