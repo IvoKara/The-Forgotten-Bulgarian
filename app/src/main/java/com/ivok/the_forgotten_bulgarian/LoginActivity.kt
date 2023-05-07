@@ -7,12 +7,14 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.ivok.the_forgotten_bulgarian.databinding.ActivityLoginBinding
@@ -48,7 +50,6 @@ class LoginActivity : AppCompatActivity() {
                 )
                     return@setOnClickListener
 
-
                 createUser(email, password)
             }
         }
@@ -64,15 +65,25 @@ class LoginActivity : AppCompatActivity() {
                     appearToast(this@LoginActivity, "Login successful")
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                 } else {
-                    appearToast(
-                        this@LoginActivity,
-                        "Authentication failed. Try again later."
-                    )
+                    checkAuthError(it.exception!!)
                 }
+
                 binding.run {
                     hideLoadingOverlay(progressBarLogin, loadingOverlay)
                 }
             }
+    }
+
+    private fun checkAuthError(exception: java.lang.Exception) {
+        when (exception) {
+            is FirebaseAuthUserCollisionException ->
+                binding.loginEmailLayout.helperText = exception.message.toString()
+            else ->
+                appearToast(
+                    this@LoginActivity,
+                    "Authentication failed. Try again later."
+                )
+        }
     }
 
     private fun initFocusListenerForEmail() {
