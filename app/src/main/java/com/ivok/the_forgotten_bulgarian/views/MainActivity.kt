@@ -16,7 +16,7 @@ class MainActivity : AuthCompatActivity<ActivityMainBinding>
 
     public override fun onStart() {
         super.onStart()
-        val user = firebase.currentUser
+        val user = auth.currentUser
 
         with(binding.buttonLogin) {
             if (user != null) {

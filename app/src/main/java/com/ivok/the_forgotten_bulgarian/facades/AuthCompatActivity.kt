@@ -11,12 +11,15 @@ import androidx.databinding.ViewDataBinding
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 abstract class AuthCompatActivity<Binding : ViewDataBinding>
     (private val layoutId: Int) : AppCompatActivity() {
     protected lateinit var binding: Binding
-    protected lateinit var firebase: FirebaseAuth
+    protected lateinit var auth: FirebaseAuth
+    protected lateinit var database: FirebaseDatabase
 
     /* clears focus from all EditText (and inherited from it) inputs */
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
@@ -39,7 +42,8 @@ abstract class AuthCompatActivity<Binding : ViewDataBinding>
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutId)
-        firebase = Firebase.auth
+        auth = Firebase.auth
+        database = Firebase.database
 
         onCreate()
     }

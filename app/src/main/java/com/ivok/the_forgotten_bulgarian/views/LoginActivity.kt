@@ -67,27 +67,35 @@ class LoginActivity : AuthCompatActivity<ActivityLoginBinding>
         binding.run {
             showLoadingOverlay(progressBarLogin, loadingOverlay)
         }
-        firebase.createUserWithEmailAndPassword(email, password)
-            .addOnSuccessListener(this) {
-                appearToast(this@LoginActivity, "Login successful")
-                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                finish()
-            }
+
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnSuccessListener(this) { finishUserProfileCreation() }
             .addOnFailureListener(this) { exception -> checkAuthError(exception) }
+    }
+
+    private fun successfulAuthentication() {
+        appearToast(this@LoginActivity, "Login successful")
+        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        finish()
+    }
+
+    private fun finishUserProfileCreation() {
+        val uriString = "android.resource://$packageName/${R.drawable.bulgarian_embrodery}"
+        val profileUpdates = userProfileChangeRequest {
+            displayName = "Hacho"
+            photoUri = Uri.parse(uriString)
+        }
+
+        auth.currentUser!!.updateProfile(profileUpdates)
+            .addOnSuccessListener { successfulAuthentication() }
+            .addOnFailureListener {
+                appearToast(this@LoginActivity, "Profile create error")
+            }
             .addOnCompleteListener(this) {
                 binding.run {
                     hideLoadingOverlay(progressBarLogin, loadingOverlay)
                 }
             }
-
-
-    }
-
-    private fun additionalUserInformation() {
-        val profileUpdates = userProfileChangeRequest {
-            displayName = "Hacho"
-            photoUri = Uri.parse("android.resource://$packageName/${R.drawable.bg_asset_image}")
-        }
     }
 
     private fun checkAuthError(exception: java.lang.Exception) {
