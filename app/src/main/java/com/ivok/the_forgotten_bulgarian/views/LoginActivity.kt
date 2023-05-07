@@ -1,6 +1,9 @@
 package com.ivok.the_forgotten_bulgarian.views
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
+import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -8,31 +11,30 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.Patterns
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 import com.ivok.the_forgotten_bulgarian.R
 import com.ivok.the_forgotten_bulgarian.databinding.ActivityLoginBinding
+import com.ivok.the_forgotten_bulgarian.facades.AuthCompatActivity
 import com.ivok.the_forgotten_bulgarian.utils.appearToast
-import com.ivok.the_forgotten_bulgarian.utils.firebaseAuth
 import com.ivok.the_forgotten_bulgarian.utils.hideLoadingOverlay
 import com.ivok.the_forgotten_bulgarian.utils.showLoadingOverlay
 
 
-class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
-    private lateinit var firebase: FirebaseAuth
+class LoginActivity : AuthCompatActivity<ActivityLoginBinding>
+    (R.layout.activity_login) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
-        firebase = Firebase.auth
-
+    override fun onCreate() {
         initClickableSpanText()
         initFocusListenerForEmail()
         initFocusListenerForPassword()
@@ -64,19 +66,26 @@ class LoginActivity : AppCompatActivity() {
             showLoadingOverlay(progressBarLogin, loadingOverlay)
         }
         firebase.createUserWithEmailAndPassword(email, password)
+            .addOnSuccessListener(this) {
+                appearToast(this@LoginActivity, "Login successful")
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                finish()
+            }
+            .addOnFailureListener(this) { exception -> checkAuthError(exception) }
             .addOnCompleteListener(this) {
-                if (it.isSuccessful) {
-                    appearToast(this@LoginActivity, "Login successful")
-                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                    finish()
-                } else {
-                    checkAuthError(it.exception!!)
-                }
-
                 binding.run {
                     hideLoadingOverlay(progressBarLogin, loadingOverlay)
                 }
             }
+
+
+    }
+
+    private fun additionalUserInformation() {
+        val profileUpdates = userProfileChangeRequest {
+            displayName = "Hacho"
+            photoUri = Uri.parse("android.resource://$packageName/${R.drawable.bg_asset_image}")
+        }
     }
 
     private fun checkAuthError(exception: java.lang.Exception) {

@@ -9,18 +9,12 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.ivok.the_forgotten_bulgarian.R
 import com.ivok.the_forgotten_bulgarian.databinding.ActivityProfileBinding
-import com.ivok.the_forgotten_bulgarian.utils.currentUser
-import com.ivok.the_forgotten_bulgarian.utils.firebaseAuth
+import com.ivok.the_forgotten_bulgarian.facades.AuthCompatActivity
 
-class ProfileActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityProfileBinding
-    private lateinit var firebase: FirebaseAuth
+class ProfileActivity : AuthCompatActivity<ActivityProfileBinding>
+    (R.layout.activity_profile) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
-        firebase = Firebase.auth
-
+    override fun onCreate() {
         val user = firebase.currentUser!!
 
         with(binding) {
