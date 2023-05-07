@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1078722959586",
+    "project_id": "the-forgotten-bulgarian",
+    "storage_bucket": "the-forgotten-bulgarian.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1078722959586:android:e4985a551d2a4661db66bb",
+        "android_client_info": {
+          "package_name": "com.ivok.the_forgotten_bulgarian"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1078722959586-n7160oeqeec4746u80essoqla7ll0dmb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4ABSNcqL44yn79rs5-Tz_GxzTSwpSCxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1078722959586-n7160oeqeec4746u80essoqla7ll0dmb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
