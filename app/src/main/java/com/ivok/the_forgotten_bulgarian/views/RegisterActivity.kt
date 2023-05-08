@@ -89,10 +89,17 @@ class RegisterActivity : AuthCompatActivity<ActivityRegisterBinding>
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener(this) { finishUserProfileCreation() }
             .addOnFailureListener(this) { exception ->
-                firebaseEmailError(exception)
-                binding.run {
-                    hideLoadingOverlay(progressBarLogin, loadingOverlay)
+                database.getReference("users").get().addOnSuccessListener {
+                    if (it.exists() && it.hasChild(username)) {
+                        usernameTakenActions()
+                    }
+                }.addOnCompleteListener {
+                    firebaseEmailError(exception)
+                    binding.run {
+                        hideLoadingOverlay(progressBarLogin, loadingOverlay)
+                    }
                 }
+
             }
     }
 
@@ -131,8 +138,7 @@ class RegisterActivity : AuthCompatActivity<ActivityRegisterBinding>
                     }
             }
             .addOnFailureListener {
-                usernameTaken = true
-                binding.registerUsernameLayout.helperText = "Username already taken"
+                usernameTakenActions()
                 showSoftKeyBoard(binding.registerUsername)
 
                 user.delete()
@@ -154,5 +160,10 @@ class RegisterActivity : AuthCompatActivity<ActivityRegisterBinding>
                     "Authentication failed. Try again later."
                 )
         }
+    }
+
+    private fun usernameTakenActions() {
+        usernameTaken = true
+        binding.registerUsernameLayout.helperText = "Username already taken"
     }
 }

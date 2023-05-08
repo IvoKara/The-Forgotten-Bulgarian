@@ -90,7 +90,6 @@ class LoginActivity : AuthCompatActivity<ActivityLoginBinding>
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener(this) { successfulAuthentication() }
             .addOnFailureListener(this) { exception ->
-                Log.e("Firebase", exception.toString())
                 firebaseEmailError(exception)
                 binding.run {
                     hideLoadingOverlay(progressBarLogin, loadingOverlay)
