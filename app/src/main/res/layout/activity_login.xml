@@ -128,7 +128,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:imeOptions="actionNext"
-                                android:nextFocusDown="@id/login_password" />
+                                android:inputType="textEmailAddress" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -162,7 +162,19 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/login_fields" />
 
+                    <TextView
+                        android:id="@+id/loginError"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/error"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/button_login_submit" />
+
                     <LinearLayout
+                        android:id="@+id/registerRedirect"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
@@ -172,7 +184,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/button_login_submit">
+                        app:layout_constraintTop_toBottomOf="@id/loginError">
 
                         <TextView
                             android:layout_width="wrap_content"

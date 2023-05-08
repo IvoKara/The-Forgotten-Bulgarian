@@ -10,15 +10,13 @@
         <item name="colorSecondaryVariant">@color/wheat_400</item>
         <item name="colorOnSecondary">@color/red_brown_700</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/antique_white_300</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
         <!--Navigation bar color. -->
-        <item name="android:navigationBarColor">@color/antique_white_300</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
         <!-- Customize your theme here. -->
-        <!-- <item name="colorOnBackground">@color/red_brown_700</item> -->
-        <!-- <item name="android:backgroundTint">@color/antique_white_300</item> -->
-        <item name="android:backgroundTint">@color/antique_white_300</item>
+        <item name="android:windowBackground">@color/antique_white_300</item>
         <item name="materialButtonStyle">@style/ButtonColour</item>
         <item name="android:textColor">@color/red_brown_700</item>
         <item name="android:fontFamily">@font/alegreya</item>

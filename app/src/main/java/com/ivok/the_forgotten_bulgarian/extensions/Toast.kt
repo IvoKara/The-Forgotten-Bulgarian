@@ -1,4 +1,4 @@
-package com.ivok.the_forgotten_bulgarian.utils
+package com.ivok.the_forgotten_bulgarian.extensions
 
 import android.app.Activity
 import android.content.Context
