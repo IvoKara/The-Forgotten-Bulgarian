@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".views.QuestionShowActivity">
+    tools:context=".views.QuestionCongratsActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,6 +24,28 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="2dp"
+                    android:fontFamily="@font/monomachus"
+                    android:text="Поздравления!"
+                    android:textSize="30sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:text="Ти позна думата"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/image_wrapper"
                     android:layout_width="wrap_content"
@@ -44,54 +66,26 @@
                 </androidx.cardview.widget.CardView>
 
                 <TextView
-                    android:id="@+id/question_text"
+                    android:id="@+id/question_additional"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:fontFamily="@font/monomachus"
-                    android:text="Не много дълъг Въпрос"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
+                    android:text="Дългичко обяснение"
+                    android:textAlignment="center" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/letters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp" />
 
                 <Button
-                    android:id="@+id/button_hint"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/ic_baseline_lightbulb_24" />
-
-                <TextView
-                    android:id="@+id/question_hint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/monomachus"
-                    android:text="Не много дълъг Жокер"
-                    android:textAlignment="center"
-                    android:textColor="@color/antique_white_600"
-                    android:textSize="14sp"
-                    android:visibility="gone" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/guess_letters"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp" />
-
-                <TextView
-                    android:id="@+id/validation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/guess_error"
-                    android:textColor="@color/red_brown_500"
-                    android:visibility="invisible" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_letters"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp" />
+                    android:layout_marginTop="24dp"
+                    android:text="Следващ" />
 
             </LinearLayout>
 

@@ -1,9 +1,11 @@
 package com.ivok.the_forgotten_bulgarian.views
 
 
+import android.content.Intent
 import android.util.Log
 import android.view.View
 import androidx.cardview.widget.CardView
+import androidx.core.os.HandlerCompat
 import androidx.core.view.allViews
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexDirection
@@ -12,30 +14,34 @@ import com.google.android.flexbox.JustifyContent
 import com.ivok.the_forgotten_bulgarian.R
 import com.ivok.the_forgotten_bulgarian.adapters.LettersListAdapter
 import com.ivok.the_forgotten_bulgarian.databinding.ActivityQuestionShowBinding
+import com.ivok.the_forgotten_bulgarian.extensions.appearToast
 import com.ivok.the_forgotten_bulgarian.extensions.hideLetters
 import com.ivok.the_forgotten_bulgarian.extensions.randomBgLowercase
 import com.ivok.the_forgotten_bulgarian.facades.AuthCompatActivity
 import com.ivok.the_forgotten_bulgarian.models.Question
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.letter_card.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.util.logging.Handler
 
 class QuestionShowActivity : AuthCompatActivity<ActivityQuestionShowBinding>
     (R.layout.activity_question_show) {
 
-    private var fillCounter = 1
+    private var fillCounter = 0
     private val maxChars = 14
-    private var answer: String? = null
+    private var question: Question? = null
     private var guessWord: StringBuilder? = null
     private var shuffled: List<Char>? = null
 
     override fun onCreate() {
-        val question = intent.getParcelableExtra<Question>("question")
+        question = intent.getParcelableExtra<Question>("question")
 
-        answer = question?.answer
-        guessWord = StringBuilder(answer?.hideLetters()!!)
+        guessWord = StringBuilder(question?.answer?.hideLetters()!!)
 
-        val randomSuffix = String.randomBgLowercase(maxChars - (answer?.length ?: 0))
-        shuffled = (answer + randomSuffix).toList().shuffled()
+        val randomSuffix = String.randomBgLowercase(maxChars - (question?.answer?.length ?: 0))
+        shuffled = (question?.answer + randomSuffix).toList().shuffled()
 
         initHintButton()
 
@@ -44,7 +50,7 @@ class QuestionShowActivity : AuthCompatActivity<ActivityQuestionShowBinding>
             questionHint.text = question?.hint
             if (question?.photoUrl != null) {
                 imageWrapper.visibility = View.VISIBLE
-                Picasso.get().load(question.photoUrl).into(questionImage)
+                Picasso.get().load(question!!.photoUrl).into(questionImage)
             } else {
                 imageWrapper.visibility = View.GONE
             }
@@ -78,11 +84,27 @@ class QuestionShowActivity : AuthCompatActivity<ActivityQuestionShowBinding>
         }
     }
 
+    private fun checkIsGuessValid() {
+        if (question?.answer == guessWord.toString()) {
+            val intent = Intent(this@QuestionShowActivity, QuestionCongratsActivity::class.java)
+//            intent.putExtra("question", question)
+            GlobalScope.launch {
+                delay(200)
+                startActivity(intent)
+            }
+
+        } else {
+            binding.validation.visibility = View.VISIBLE
+        }
+    }
+
     inner class GuessingLetters : LettersListAdapter.onLetterListener {
         override fun onLetterClick(letterView: View?, position: Int) {
-            if (fillCounter < answer!!.length - 1 &&
+
+            if (fillCounter < question?.answer!!.length - 2 &&
                 letterView?.visibility == View.VISIBLE
             ) {
+                binding.validation.visibility = View.INVISIBLE
                 letterView.visibility = View.INVISIBLE
 
                 val letter = letterView.letter!!.text.toString()
@@ -98,32 +120,35 @@ class QuestionShowActivity : AuthCompatActivity<ActivityQuestionShowBinding>
                 Log.i("GuessWorld", "position: $position")
                 Log.i("GuessWorld", guessWord.toString())
             }
+
+            if (fillCounter == question?.answer!!.length - 2) {
+                checkIsGuessValid()
+            }
         }
     }
 
     inner class AnswerLetters : LettersListAdapter.onLetterListener {
         override fun onLetterClick(letterView: View?, position: Int) {
-            if (fillCounter >= 1 &&
-                position in (1 until answer!!.length - 1) &&
+
+            if (fillCounter > 0 &&
+                position in (1 until question?.answer!!.length - 1) &&
                 letterView?.letter?.text?.first() != ' '
             ) {
-                Log.d("Guess", letterView.toString())
-                Log.d("Guess", letterView?.letter.toString())
-                letterView?.letter?.let { textView ->
+                binding.validation.visibility = View.INVISIBLE
 
+                letterView?.letter?.let { textView ->
                     binding.recyclerLetters.allViews.filter {
                         it is CardView && it.visibility == View.INVISIBLE
                     }.find {
                         it.letter.text == textView.text
                     }!!.visibility = View.VISIBLE
+
                     textView.text = " "
                 }
+
                 guessWord!![position] = ' '
                 fillCounter--;
-//                    getChildAt(
-//                        shuffled!!.indexOfFirst { it == text.first() }
-//                    ).visibility = View.VISIBLE
-//                    text = " "
+
                 Log.i("GuessWorld", "fillCounter: ${fillCounter}")
                 Log.i("GuessWorld", "letterView: $letterView")
                 Log.i("GuessWorld", "position: $position")
