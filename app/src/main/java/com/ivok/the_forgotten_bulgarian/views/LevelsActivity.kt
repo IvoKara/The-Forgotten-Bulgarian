@@ -11,6 +11,7 @@ import com.google.firebase.database.ktx.getValue
 import com.ivok.the_forgotten_bulgarian.R
 import com.ivok.the_forgotten_bulgarian.adapters.LevelsListAdapter
 import com.ivok.the_forgotten_bulgarian.databinding.ActivityLevelsBinding
+import com.ivok.the_forgotten_bulgarian.extensions.appearToast
 import com.ivok.the_forgotten_bulgarian.facades.AuthCompatActivity
 import com.ivok.the_forgotten_bulgarian.models.Level
 import com.ivok.the_forgotten_bulgarian.models.Question
@@ -21,15 +22,15 @@ class LevelsActivity :
     LevelsListAdapter.onLevelListener {
 
     override fun onCreate() {
+        Log.d("Profile", profile.toString())
         database.reference.child("quiz/levels")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val levels = dataSnapshot.getValue<List<Level>>()
-
                     binding.recyclerLevels.apply {
                         layoutManager = LinearLayoutManager(this@LevelsActivity)
                         adapter = LevelsListAdapter(
-                            this@LevelsActivity, levels!!, this@LevelsActivity
+                            this@LevelsActivity, levels!!, profile!!, this@LevelsActivity
                         )
                     }
                     Log.d("Firebase", levels.toString())
@@ -41,11 +42,15 @@ class LevelsActivity :
             })
     }
 
-    override fun onLevelClick(level: Level) {
-        Log.d("LevelsAdapter", level.toString())
-        val intent = Intent(this, QuestionsIndexActivity::class.java)
-        intent.putExtra("levelNumber", level.number)
-        intent.putExtra("levelName", level.name)
-        startActivity(intent)
+    override fun onLevelClick(level: Level, position: Int) {
+        if (profile!!.checkpoint.level >= (position + 1)) {
+            Log.d("LevelsAdapter", level.toString())
+            val intent = Intent(this@LevelsActivity, QuestionsIndexActivity::class.java)
+            intent.putExtra("levelNumber", level.number)
+            intent.putExtra("levelName", level.name)
+            startActivity(intent)
+        } else {
+            appearToast(this@LevelsActivity, "Бързаш :)")
+        }
     }
 }

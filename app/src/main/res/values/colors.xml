@@ -13,8 +13,9 @@
     <color name="antique_white_300">#FFE8CC</color>
     <color name="antique_white_400">#e0c49d</color>
     <color name="antique_white_600">#9E734E</color>
-    <color name="red_brown_700">#3e2723</color>
+    <color name="red_brown_300">#734942</color>
     <color name="red_brown_500">#6A1F12</color>
+    <color name="red_brown_700">#3e2723</color>
     <color name="error">#AC2209</color>
     <color name="transparent">#00000000</color>
 </resources>

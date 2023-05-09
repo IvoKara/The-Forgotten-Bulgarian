@@ -1,20 +1,25 @@
 package com.ivok.the_forgotten_bulgarian.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ivok.the_forgotten_bulgarian.R
 
 import com.ivok.the_forgotten_bulgarian.models.Level
 import com.ivok.the_forgotten_bulgarian.models.Question
+import com.ivok.the_forgotten_bulgarian.models.User
 import kotlinx.android.synthetic.main.question_card.view.*
 
 class QuestionsListAdapter(
     val context: Context,
     val items: List<Question>,
+    val user: User,
     val listener: onQuestionListener
 ) :
     RecyclerView.Adapter<QuestionsListAdapter.ViewHolder>() {
@@ -31,6 +36,12 @@ class QuestionsListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.questionNumber.text = "#${position + 1}"
+
+
+        if (user.checkpoint.level >= (position + 1)) {
+            holder.itemView.backgroundTintList =
+                AppCompatResources.getColorStateList(context, R.color.red_brown_300)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -48,11 +59,11 @@ class QuestionsListAdapter(
         }
 
         override fun onClick(view: View?) {
-            onQuestionListener.onLevelClick(items[adapterPosition])
+            onQuestionListener.onLevelClick(items[adapterPosition], adapterPosition)
         }
     }
 
     interface onQuestionListener {
-        fun onLevelClick(question: Question): Unit
+        fun onLevelClick(question: Question, position: Int): Unit
     }
 }

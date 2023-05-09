@@ -1,14 +1,14 @@
 package com.ivok.the_forgotten_bulgarian.models
 
 data class User(
-    val username: String,
-    val email: String,
-    val photoUri: String,
-    val uid: String,
-    val gameState: GameState = GameState()
+    val username: String? = null,
+    val email: String? = null,
+    val photoUri: String? = null,
+    val uid: String? = null,
+    val checkpoint: Checkopoint = Checkopoint()
 ) {
 }
 
-data class GameState(var level: Int, var question: Int) {
+data class Checkopoint(var level: Int, var question: Int) {
     constructor() : this(1, 1) {}
 }

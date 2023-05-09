@@ -132,7 +132,10 @@ class RegisterActivity : AuthCompatActivity<ActivityRegisterBinding>
                     photoUri = Uri.parse(uriString)
                 }
                 user.updateProfile(profileUpdates)
-                    .addOnSuccessListener { successfulAuthentication() }
+                    .addOnSuccessListener {
+                        profile = userData
+                        successfulAuthentication()
+                    }
                     .addOnFailureListener {
                         appearToast(this@RegisterActivity, "Profile create error")
                     }
@@ -141,8 +144,7 @@ class RegisterActivity : AuthCompatActivity<ActivityRegisterBinding>
                 usernameTakenActions()
                 showSoftKeyBoard(binding.registerUsername)
 
-                user.delete()
-                auth.signOut()
+                signOutUser()
 
                 binding.run {
                     hideLoadingOverlay(progressBarLogin, loadingOverlay)

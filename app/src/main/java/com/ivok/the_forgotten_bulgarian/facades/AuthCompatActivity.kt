@@ -2,29 +2,46 @@ package com.ivok.the_forgotten_bulgarian.facades
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.coroutineScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import com.ivok.the_forgotten_bulgarian.adapters.LevelsListAdapter
 import com.ivok.the_forgotten_bulgarian.extensions.appearToast
 import com.ivok.the_forgotten_bulgarian.extensions.hideSoftKeyBoard
+import com.ivok.the_forgotten_bulgarian.models.Level
+import com.ivok.the_forgotten_bulgarian.models.User
 
 abstract class AuthCompatActivity<Binding : ViewDataBinding>
     (private val layoutId: Int) : AppCompatActivity() {
+
+    companion object {
+        const val databaseUrl: String =
+            "https://the-forgotten-bulgarian-default-rtdb.europe-west1.firebasedatabase.app/"
+
+        var auth: FirebaseAuth = Firebase.auth
+        var database: FirebaseDatabase = Firebase.database(databaseUrl)
+
+        var profile: User? = null
+    }
+
     protected lateinit var binding: Binding
-    protected lateinit var auth: FirebaseAuth
-    protected lateinit var database: FirebaseDatabase
-    protected val databaseUrl: String =
-        "https://the-forgotten-bulgarian-default-rtdb.europe-west1.firebasedatabase.app/"
 
     /* clears focus from all EditText (and inherited from it) inputs */
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
@@ -44,13 +61,38 @@ abstract class AuthCompatActivity<Binding : ViewDataBinding>
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutId)
-        auth = Firebase.auth
-        database = Firebase.database(databaseUrl)
+        if (auth.currentUser != null && profile == null) {
+            val username = auth.currentUser!!.displayName!!
 
+            database.getReference("users").child(username)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        profile = snapshot.getValue<User>()
+                        onCreate()
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.e("Firebase Error", "Fetch user data Error", error.toException())
+                    }
+
+                })
+        }
+
+        Log.d("New User", auth.currentUser.toString())
+        Log.d("New Profile", profile.toString())
+        Log.d("New Database", database.toString())
         onCreate()
     }
 
     abstract fun onCreate()
+
+    protected fun signOutUser() {
+        if (auth.currentUser != null) {
+            auth.currentUser!!.delete()
+            auth.signOut()
+            profile = null
+        }
+    }
 
     protected fun usernameError(username: String): String? {
         return if (username.isBlank()) {

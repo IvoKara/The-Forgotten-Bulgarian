@@ -25,11 +25,13 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.ivok.the_forgotten_bulgarian.R
 import com.ivok.the_forgotten_bulgarian.databinding.ActivityLoginBinding
 import com.ivok.the_forgotten_bulgarian.facades.AuthCompatActivity
 import com.ivok.the_forgotten_bulgarian.extensions.appearToast
+import com.ivok.the_forgotten_bulgarian.models.User
 import com.ivok.the_forgotten_bulgarian.utils.hideLoadingOverlay
 import com.ivok.the_forgotten_bulgarian.utils.showLoadingOverlay
 
@@ -88,7 +90,13 @@ class LoginActivity : AuthCompatActivity<ActivityLoginBinding>
         }
 
         auth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener(this) { successfulAuthentication() }
+            .addOnSuccessListener(this) {
+                database.getReference("users").child(auth.currentUser!!.displayName!!)
+                    .get().addOnSuccessListener {
+                        profile = it.getValue<User>()
+                        successfulAuthentication()
+                    }
+            }
             .addOnFailureListener(this) { exception ->
                 firebaseEmailError(exception)
                 binding.run {
