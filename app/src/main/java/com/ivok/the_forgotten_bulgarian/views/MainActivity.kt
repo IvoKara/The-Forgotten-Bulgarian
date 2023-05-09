@@ -10,7 +10,7 @@ class MainActivity : AuthCompatActivity<ActivityMainBinding>
 
     override fun onCreate() {
         binding.buttonPlay.setOnClickListener {
-            startActivity(Intent(this, RouteMapActivity::class.java))
+            startActivity(Intent(this, LevelsActivity::class.java))
         }
     }
 

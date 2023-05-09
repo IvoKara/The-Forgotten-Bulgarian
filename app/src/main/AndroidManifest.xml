@@ -13,6 +13,27 @@
         android:theme="@style/Theme.TheForgottenBulgarian"
         tools:targetApi="31">
         <activity
+            android:name=".views.QuestionShowActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".views.LevelsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".views.QuestionsIndexActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".views.ProfileActivity"
             android:exported="false">
             <meta-data
