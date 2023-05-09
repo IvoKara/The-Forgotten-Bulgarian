@@ -4,70 +4,89 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".views.QuestionShowActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="20dp">
+        android:fillViewport="true">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/image_wrapper"
-                android:layout_width="300dp"
-                android:layout_height="180dp"
-                android:paddingBottom="100dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="8dp"
-                app:layout_constraintWidth_percent="0.75"
-                app:layout_goneMarginBottom="30dp">
-
-                <ImageView
-                    android:id="@+id/question_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/palm_sunday" />
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/question_text"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/monomachus"
-                android:text="Не много дълъг Въпрос"
-                android:textAlignment="center"
-                android:textSize="20sp" />
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/button_hint"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/ic_baseline_lightbulb_24" />
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/image_wrapper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:paddingBottom="100dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="8dp"
+                    app:layout_constraintWidth_percent="0.75"
+                    app:layout_goneMarginBottom="30dp">
 
-            <TextView
-                android:id="@+id/question_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/monomachus"
-                android:text="Не много дълъг Жокер"
-                android:textAlignment="center"
-                android:textColor="@color/antique_white_600"
-                android:textSize="14sp" />
+                    <ImageView
+                        android:id="@+id/question_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/palm_sunday" />
+                </androidx.cardview.widget.CardView>
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/question_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/monomachus"
+                    android:text="Не много дълъг Въпрос"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <Button
+                    android:id="@+id/button_hint"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/ic_baseline_lightbulb_24" />
+
+                <TextView
+                    android:id="@+id/question_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/monomachus"
+                    android:text="Не много дълъг Жокер"
+                    android:textAlignment="center"
+                    android:textColor="@color/antique_white_600"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/guess_letters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_letters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </layout>
