@@ -17,6 +17,7 @@ import com.ivok.the_forgotten_bulgarian.adapters.LettersListAdapter
 import com.ivok.the_forgotten_bulgarian.adapters.QuestionsListAdapter
 import com.ivok.the_forgotten_bulgarian.databinding.ActivityQuestionShowBinding
 import com.ivok.the_forgotten_bulgarian.extensions.appearToast
+import com.ivok.the_forgotten_bulgarian.extensions.hideLetters
 import com.ivok.the_forgotten_bulgarian.extensions.randomBgLowercase
 import com.ivok.the_forgotten_bulgarian.facades.AuthCompatActivity
 import com.ivok.the_forgotten_bulgarian.models.Question
@@ -28,10 +29,14 @@ class QuestionShowActivity :
     LettersListAdapter.onLetterListener {
 
     private var fillCounter = 1
+    private val maxChars = 14
+    private var answer: String? = null
+    private var guessWord: StringBuilder? = null
 
     override fun onCreate() {
         val question = intent.getParcelableExtra<Question>("question")
-        val maxChars = 14
+        answer = question?.answer
+        guessWord = StringBuilder(answer?.hideLetters()!!)
 
         initHintButton()
 
@@ -45,13 +50,11 @@ class QuestionShowActivity :
                 imageWrapper.visibility = View.GONE
             }
 
-            val answer = question!!.answer
-            val randomSuffix = String.randomBgLowercase(maxChars - answer!!.length)
+            val randomSuffix = String.randomBgLowercase(maxChars - (answer?.length ?: 0))
             val shuffled = (answer + randomSuffix).toList().shuffled()
-            generateLetterFlexbox(recyclerLetters, shuffled)
 
-            val guessWord = hideLetters(answer).toList()
-            generateLetterFlexbox(guessLetters, guessWord)
+            generateLetterFlexbox(recyclerLetters, shuffled)
+            generateLetterFlexbox(guessLetters, guessWord!!.toList())
         }
     }
 
@@ -76,17 +79,25 @@ class QuestionShowActivity :
     }
 
     override fun onLetterClick(letterVew: View?) {
-        Log.d("Letter", letterVew.toString())
-        letterVew?.visibility = View.INVISIBLE
+        if (fillCounter < answer!!.length - 1) {
+            letterVew?.visibility = View.INVISIBLE
+            appendNewGuessingLetter(letterVew?.letter!!.text.first())
+//            val guessing = binding.guessLetters.getChildAt(fillCounter).letter
+//            Log.d("Guessing", guessing.toString())
+//            guessing.text = letterVew?.letter?.text
+//            fillCounter++
+        } else {
+            return
+        }
+        Log.i("GuessWorld", guessWord.toString())
+    }
+
+    private fun appendNewGuessingLetter(letter: Char) {
         val guessing = binding.guessLetters.getChildAt(fillCounter).letter
         Log.d("Guessing", guessing.toString())
-//        val guessing = binding.guessLetters.getChildAt(fillCounter) as TextView
-        guessing.text = letterVew?.letter?.text
+        guessing.text = letter.toString()
+        guessWord!![fillCounter] = letter
         fillCounter++
     }
 
-    private fun hideLetters(word: String): String {
-        val spaces = " ".repeat(word.length - 2)
-        return "${word.first()}${spaces}${word.last()}"
-    }
 }

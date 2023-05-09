@@ -12,3 +12,8 @@ fun String.Companion.randomBgLowercase(length: Int): String {
         .map { allowedChars.random() }
         .joinToString("")
 }
+
+fun String.hideLetters(): String {
+    val spaces = " ".repeat(this.length - 2)
+    return "${this.first()}${spaces}${this.last()}"
+}
