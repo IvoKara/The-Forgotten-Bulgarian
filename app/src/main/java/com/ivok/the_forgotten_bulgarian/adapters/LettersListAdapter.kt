@@ -47,11 +47,11 @@ class LettersListAdapter(
         }
 
         override fun onClick(view: View?) {
-            onLetterListener.onLetterClick(view)
+            onLetterListener.onLetterClick(view, adapterPosition)
         }
     }
 
     interface onLetterListener {
-        fun onLetterClick(letterVew: View?): Unit
+        fun onLetterClick(letterView: View?, position: Int): Unit
     }
 }
