@@ -15,7 +15,6 @@
             android:layout_marginTop="30dp"
             android:fontFamily="@font/monomachus"
             android:paddingHorizontal="30dp"
-            android:text="Заглавие"
             android:textAlignment="center"
             android:textSize="30dp"
             app:layout_constraintEnd_toEndOf="parent"

@@ -25,7 +25,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/monomachus"
                 android:letterSpacing="0.05"
-                android:text="Ниво 1"
                 android:textColor="@color/antique_white_400"
                 android:textSize="30dp" />
 
@@ -35,7 +34,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/monomachus"
                 android:letterSpacing="0.05"
-                android:text="Обяснение и заглавие"
                 android:textColor="@color/antique_white_600"
                 android:textSize="16dp" />
         </LinearLayout>

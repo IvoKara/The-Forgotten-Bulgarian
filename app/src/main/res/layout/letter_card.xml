@@ -21,7 +21,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="A"
             android:textColor="@color/antique_white_400"
             android:textSize="20dp" />
 

@@ -49,7 +49,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:fontFamily="@font/monomachus"
-                    android:text="Не много дълъг Въпрос"
                     android:textAlignment="center"
                     android:textSize="20sp" />
 
@@ -66,7 +65,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/monomachus"
-                    android:text="Не много дълъг Жокер"
                     android:textAlignment="center"
                     android:textColor="@color/antique_white_600"
                     android:textSize="14sp"

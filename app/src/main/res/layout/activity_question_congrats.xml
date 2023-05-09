@@ -71,7 +71,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:fontFamily="@font/monomachus"
-                    android:text="Дългичко обяснение"
                     android:textAlignment="center" />
 
 
