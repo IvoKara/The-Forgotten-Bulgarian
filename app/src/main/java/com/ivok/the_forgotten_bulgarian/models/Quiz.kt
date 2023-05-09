@@ -18,4 +18,5 @@ class Question(
     var level: Int? = null,
     var hint: String? = null,
     var additional: String? = null,
+    var number: Int? = null
 ) : Parcelable
