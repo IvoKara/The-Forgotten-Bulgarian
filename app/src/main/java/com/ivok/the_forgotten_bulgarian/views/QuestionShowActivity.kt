@@ -21,6 +21,7 @@ import com.ivok.the_forgotten_bulgarian.extensions.randomBgLowercase
 import com.ivok.the_forgotten_bulgarian.facades.AuthCompatActivity
 import com.ivok.the_forgotten_bulgarian.models.Question
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.letter_card.view.*
 
 class QuestionShowActivity :
     AuthCompatActivity<ActivityQuestionShowBinding>(R.layout.activity_question_show),
@@ -76,11 +77,12 @@ class QuestionShowActivity :
 
     override fun onLetterClick(letterVew: View?) {
         Log.d("Letter", letterVew.toString())
-        letterVew?.visibility = View.GONE
-//        Log.d("Guessing", binding.guessLetters.getChildAt(fillCounter).toString())
+        letterVew?.visibility = View.INVISIBLE
+        val guessing = binding.guessLetters.getChildAt(fillCounter).letter
+        Log.d("Guessing", guessing.toString())
 //        val guessing = binding.guessLetters.getChildAt(fillCounter) as TextView
-//        guessing.text = (letterVew as TextView).text
-//        fillCounter++
+        guessing.text = letterVew?.letter?.text
+        fillCounter++
     }
 
     private fun hideLetters(word: String): String {
