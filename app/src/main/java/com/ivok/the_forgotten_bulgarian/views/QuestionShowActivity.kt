@@ -87,10 +87,11 @@ class QuestionShowActivity : AuthCompatActivity<ActivityQuestionShowBinding>
     private fun checkIsGuessValid() {
         if (question?.answer == guessWord.toString()) {
             val intent = Intent(this@QuestionShowActivity, QuestionCongratsActivity::class.java)
-//            intent.putExtra("question", question)
+            intent.putExtra("question", question)
             GlobalScope.launch {
-                delay(200)
+                delay(50)
                 startActivity(intent)
+                finish()
             }
 
         } else {
