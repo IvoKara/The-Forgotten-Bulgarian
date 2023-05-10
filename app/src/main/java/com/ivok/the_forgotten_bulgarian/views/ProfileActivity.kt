@@ -25,7 +25,7 @@ class ProfileActivity : AuthCompatActivity<ActivityProfileBinding>
             userPhoto.setImageURI(user.photoUrl)
 
             buttonSignOut.setOnClickListener {
-                signOutUser()
+                auth.signOut()
                 startActivity(Intent(this@ProfileActivity, MainActivity::class.java))
                 finish()
             }
