@@ -1,5 +1,6 @@
 package com.ivok.the_forgotten_bulgarian.facades
 
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.ProxyFileDescriptorCallback
@@ -25,6 +26,7 @@ import com.ivok.the_forgotten_bulgarian.extensions.hideSoftKeyBoard
 import com.ivok.the_forgotten_bulgarian.models.Checkpoint
 import com.ivok.the_forgotten_bulgarian.models.Question
 import com.ivok.the_forgotten_bulgarian.models.User
+import com.ivok.the_forgotten_bulgarian.views.FinishActivity
 
 abstract class AuthCompatActivity<Binding : ViewDataBinding>
     (private val layoutId: Int) : AppCompatActivity() {
@@ -116,6 +118,9 @@ abstract class AuthCompatActivity<Binding : ViewDataBinding>
                     if (snapshot.exists()) {
                         val next = Checkpoint(checkpoint.level + 1, 1)
                         updateCheckpointCallback(next) { additional() }
+                    } else {
+                        startActivity(Intent(this@AuthCompatActivity, FinishActivity::class.java))
+                        finish()
                     }
                 }
 
