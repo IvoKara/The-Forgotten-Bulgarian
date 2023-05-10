@@ -24,6 +24,12 @@ class LevelsActivity :
     LevelsListAdapter.onLevelListener {
 
     override fun onCreate() {
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         Log.d("Profile", profile.toString())
         showLoadingOverlay(binding.progressBar, binding.overlay)
         database.reference.child("quiz/levels")
