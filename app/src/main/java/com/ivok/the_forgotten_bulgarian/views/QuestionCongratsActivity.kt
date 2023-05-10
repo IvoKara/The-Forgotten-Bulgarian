@@ -70,7 +70,7 @@ class QuestionCongratsActivity :
                             QuestionShowActivity::class.java
                         ).putExtra("question", snapshot.getValue<Question>())
                     )
-//                    finish()
+                    finish()
                 }
 
                 override fun onCancelled(error: DatabaseError) {

@@ -24,6 +24,14 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <TextView
+                    android:id="@+id/current_checkpoint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/monomachus"
+                    android:textSize="16dp" />
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/image_wrapper"
                     android:layout_width="wrap_content"

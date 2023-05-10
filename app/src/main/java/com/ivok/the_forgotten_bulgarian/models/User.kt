@@ -19,13 +19,19 @@ data class Checkpoint(var level: Int, var question: Int) {
     constructor() : this(1, 1) {}
 
     @Exclude
-    fun isNextCheckpoint(next: Checkpoint): Boolean {
+    fun isValidNext(next: Checkpoint): Boolean {
         return (next.level == this.level && next.question == this.question + 1) ||
                 (next.level == this.level + 1 && next.question == 1)
     }
 
     @Exclude
-    fun isNextCheckpoint(level: Int, question: Int): Boolean {
-        return this.isNextCheckpoint((Checkpoint(level, question)))
+    fun isValidNext(level: Int, question: Int): Boolean {
+        return this.isValidNext((Checkpoint(level, question)))
+    }
+
+    @Exclude
+    fun isBefore(before: Checkpoint): Boolean {
+        return (before.level == this.level && before.question < this.question) ||
+                (before.level < this.level)
     }
 }

@@ -52,6 +52,8 @@ class QuestionShowActivity : AuthCompatActivity<ActivityQuestionShowBinding>
         binding.apply {
             questionText.text = question?.text
             questionHint.text = question?.hint
+            currentCheckpoint.text = "ниво ${question?.level} / въпрос ${question?.number}"
+
             if (question?.photoUrl != null) {
                 imageWrapper.visibility = View.VISIBLE
                 Picasso.get().load(question!!.photoUrl).into(questionImage)
@@ -97,9 +99,12 @@ class QuestionShowActivity : AuthCompatActivity<ActivityQuestionShowBinding>
 
             question!!.run {
                 val currentCheckpoint = Checkpoint(level!!, number!!)
-                moveUserToNextQuestion(currentCheckpoint) {
-                    showCongratsActivity()
+                if (!profile!!.checkpoint.isBefore(currentCheckpoint)) {
+                    moveUserToNextQuestion(currentCheckpoint) {
+                        showCongratsActivity()
+                    }
                 }
+                showCongratsActivity()
             }
         } else {
             binding.validation.visibility = View.VISIBLE
