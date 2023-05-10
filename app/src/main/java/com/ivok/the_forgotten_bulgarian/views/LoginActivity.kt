@@ -49,7 +49,6 @@ class LoginActivity : AuthCompatActivity<ActivityLoginBinding>
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(view: View) {
                 startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
-                finish()
             }
 
             override fun updateDrawState(textPaint: TextPaint) {
