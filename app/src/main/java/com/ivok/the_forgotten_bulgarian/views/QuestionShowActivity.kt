@@ -99,9 +99,12 @@ class QuestionShowActivity : AuthCompatActivity<ActivityQuestionShowBinding>
 
             question!!.run {
                 val currentCheckpoint = Checkpoint(level!!, number!!)
-                moveUserToNextQuestion(currentCheckpoint) {
-                    showCongratsActivity()
+                if (!profile!!.checkpoint.isBefore(currentCheckpoint)) {
+                    moveUserToNextQuestion(currentCheckpoint) {
+                        showCongratsActivity()
+                    }
                 }
+                showCongratsActivity()
             }
         } else {
             binding.validation.visibility = View.VISIBLE
