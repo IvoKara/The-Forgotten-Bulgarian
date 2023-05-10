@@ -8,9 +8,13 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.ivok.the_forgotten_bulgarian.R
+import com.ivok.the_forgotten_bulgarian.facades.AuthCompatActivity
 
 import com.ivok.the_forgotten_bulgarian.models.Level
 import com.ivok.the_forgotten_bulgarian.models.Question
@@ -20,7 +24,6 @@ import kotlinx.android.synthetic.main.question_card.view.*
 class QuestionsListAdapter(
     val context: Context,
     val items: List<Question>,
-    val user: User,
     val listener: onQuestionListener
 ) :
     RecyclerView.Adapter<QuestionsListAdapter.ViewHolder>() {
@@ -38,6 +41,7 @@ class QuestionsListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.questionNumber.text = "#${position + 1}"
 
+        val user = AuthCompatActivity.profile!!
         val questionNumber = user.checkpoint.question
         if (position + 1 <= questionNumber) {
             holder.itemView.backgroundTintList =

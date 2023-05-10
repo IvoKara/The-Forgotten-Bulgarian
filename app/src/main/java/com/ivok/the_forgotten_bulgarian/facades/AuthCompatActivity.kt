@@ -2,12 +2,14 @@ package com.ivok.the_forgotten_bulgarian.facades
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.ProxyFileDescriptorCallback
 import android.util.Log
 import android.util.Patterns
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -18,7 +20,10 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import com.ivok.the_forgotten_bulgarian.extensions.appearToast
 import com.ivok.the_forgotten_bulgarian.extensions.hideSoftKeyBoard
+import com.ivok.the_forgotten_bulgarian.models.Checkpoint
+import com.ivok.the_forgotten_bulgarian.models.Question
 import com.ivok.the_forgotten_bulgarian.models.User
 
 abstract class AuthCompatActivity<Binding : ViewDataBinding>
@@ -54,14 +59,23 @@ abstract class AuthCompatActivity<Binding : ViewDataBinding>
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutId)
+
+        Log.d("New User", auth.currentUser.toString())
+        Log.d("New Database", database.toString())
+        onCreate()
+    }
+
+    open fun onCreate() {}
+
+    override fun onStart() {
+        super.onStart()
         if (auth.currentUser != null && profile == null) {
             val username = auth.currentUser!!.displayName!!
 
             database.getReference("users").child(username)
-                .addListenerForSingleValueEvent(object : ValueEventListener {
+                .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        profile = snapshot.getValue<User>()
-                        onCreate()
+                        profile = snapshot.getValue<User>()!!
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -69,7 +83,63 @@ abstract class AuthCompatActivity<Binding : ViewDataBinding>
                     }
 
                 })
+            Log.d("Profile", "After Updated $profile")
         }
+    }
+
+    protected fun updateCheckpoint(checkpoint: Checkpoint): Task<Void> {
+        return database.getReference("users/${profile!!.username}/checkpoint")
+            .setValue(checkpoint)
+    }
+
+    protected fun updateCheckpoint(level: Int, question: Int): Task<Void> {
+        return this.updateCheckpoint(Checkpoint(level, question))
+    }
+
+    private fun updateCheckpointCallback(checkpoint: Checkpoint, callback: () -> Unit = {}) {
+        updateCheckpoint(checkpoint)
+            .addOnSuccessListener {
+                callback()
+            }.addOnFailureListener {
+                Log.e("Firebase", "Update Checkpoint error", it)
+            }
+    }
+
+    protected fun moveUserToNextCheckpoint(
+        checkpoint: Checkpoint,
+        additionalActions: () -> Unit = {}
+    ) {
+        val quizReference = database.getReference("quiz/levels/")
+        quizReference
+            .child("${checkpoint.level - 1}/questions/${checkpoint.question}")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    Log.d("Firebase", snapshot.getValue().toString())
+                    if (snapshot.exists()) {
+                        updateCheckpointCallback(
+                            Checkpoint(checkpoint.level, checkpoint.question + 1),
+                            additionalActions
+                        )
+                    } else {
+                        quizReference
+                            .child("${checkpoint.level}/questions/0")
+                            .addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    Log.d("Firebase", snapshot.getValue().toString())
+                                    if (snapshot.exists())
+                                        updateCheckpointCallback(
+                                            Checkpoint(checkpoint.level + 1, 1),
+                                            additionalActions
+                                        )
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                    Log.e("Firebase", "Quiz Fetch error", error.toException())
+
+                                }
+                            })
+                    }
+                }
 
         Log.d("New User", auth.currentUser.toString())
         Log.d("New Profile", profile.toString())

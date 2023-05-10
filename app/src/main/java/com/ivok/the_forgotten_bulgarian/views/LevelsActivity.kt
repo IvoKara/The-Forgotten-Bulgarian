@@ -39,7 +39,7 @@ class LevelsActivity :
                     binding.recyclerLevels.apply {
                         layoutManager = LinearLayoutManager(this@LevelsActivity)
                         adapter = LevelsListAdapter(
-                            this@LevelsActivity, levels!!, profile!!, this@LevelsActivity
+                            this@LevelsActivity, levels!!, this@LevelsActivity
                         )
                     }
                     hideLoadingOverlay(binding.progressBar, binding.overlay)

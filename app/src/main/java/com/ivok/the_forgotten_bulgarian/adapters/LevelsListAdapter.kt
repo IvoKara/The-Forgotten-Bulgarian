@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ivok.the_forgotten_bulgarian.R
+import com.ivok.the_forgotten_bulgarian.facades.AuthCompatActivity
 
 import com.ivok.the_forgotten_bulgarian.models.Level
 import com.ivok.the_forgotten_bulgarian.models.User
@@ -15,7 +16,6 @@ import kotlinx.android.synthetic.main.level_card.view.*
 class LevelsListAdapter(
     val context: Context,
     val items: List<Level>,
-    val user: User,
     val listener: onLevelListener
 ) :
     RecyclerView.Adapter<LevelsListAdapter.ViewHolder>() {
@@ -36,6 +36,8 @@ class LevelsListAdapter(
             holder.description.text = name
         }
 
+        val user = AuthCompatActivity.profile!!
+        Log.d("Profile LLA", user.toString())
         Log.d("Position", position.toString())
         holder.locked.visibility =
             if (position + 1 <= user.checkpoint.level) {

@@ -3,13 +3,11 @@ package com.ivok.the_forgotten_bulgarian.views
 import android.content.Intent
 import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import com.ivok.the_forgotten_bulgarian.R
-import com.ivok.the_forgotten_bulgarian.adapters.LevelsListAdapter
 import com.ivok.the_forgotten_bulgarian.adapters.QuestionsListAdapter
 import com.ivok.the_forgotten_bulgarian.databinding.ActivityQuestionsIndexBinding
 import com.ivok.the_forgotten_bulgarian.extensions.appearToast
@@ -21,31 +19,32 @@ class QuestionsIndexActivity :
     AuthCompatActivity<ActivityQuestionsIndexBinding>(R.layout.activity_questions_index),
     QuestionsListAdapter.onQuestionListener {
 
-    override fun onCreate() {
+    override fun onCreate() {}
+
+    override fun onStart() {
+        super.onStart()
+
         Log.d("Profile", profile.toString())
+        val levelNumber = intent.getIntExtra("levelNumber", 1)
 
-        val levelNumber = intent.getIntExtra("levelNumber", 0)
-        val levelName = intent.getStringExtra("levelName")
-
-        binding.title.text = levelName
         database.reference.child("quiz/levels/${levelNumber - 1}")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (levelName != null && snapshot.exists()) {
+                    if (levelNumber > 0 && snapshot.exists()) {
                         val level = snapshot.getValue<Level>()
+                        Log.w("Profile Activity", profile.toString())
+                        binding.title.text = level!!.name
 
-                        Log.d("Here", profile.toString())
                         binding.recyclerQuestions.apply {
                             layoutManager = GridLayoutManager(this@QuestionsIndexActivity, 3)
                             adapter = QuestionsListAdapter(
                                 this@QuestionsIndexActivity,
-                                level!!.questions!!,
-                                profile!!,
+                                level.questions!!,
                                 this@QuestionsIndexActivity
                             )
                         }
 
-                        Log.d("Level", level?.questions.toString() ?: "")
+                        Log.d("Level", level.questions.toString() ?: "")
                     }
                 }
 
