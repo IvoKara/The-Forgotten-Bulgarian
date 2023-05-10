@@ -105,49 +105,49 @@ abstract class AuthCompatActivity<Binding : ViewDataBinding>
             }
     }
 
-    protected fun moveUserToNextCheckpoint(
-        checkpoint: Checkpoint,
-        additionalActions: () -> Unit = {}
-    ) {
-        val quizReference = database.getReference("quiz/levels/")
-        quizReference
-            .child("${checkpoint.level - 1}/questions/${checkpoint.question}")
+    protected fun moveUserToNextLevel(checkpoint: Checkpoint, additional: () -> Unit = {}) {
+        database.getReference("quiz/levels/")
+            .child("${checkpoint.level}/questions/0")
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     Log.d("Firebase", snapshot.getValue().toString())
+                    Log.d("Firebase", "Exists Snapshot: ${snapshot.exists()}")
+                    Log.d("Firebase", snapshot.getValue().toString())
                     if (snapshot.exists()) {
-                        updateCheckpointCallback(
-                            Checkpoint(checkpoint.level, checkpoint.question + 1),
-                            additionalActions
-                        )
-                    } else {
-                        quizReference
-                            .child("${checkpoint.level}/questions/0")
-                            .addListenerForSingleValueEvent(object : ValueEventListener {
-                                override fun onDataChange(snapshot: DataSnapshot) {
-                                    Log.d("Firebase", snapshot.getValue().toString())
-                                    if (snapshot.exists())
-                                        updateCheckpointCallback(
-                                            Checkpoint(checkpoint.level + 1, 1),
-                                            additionalActions
-                                        )
-                                }
-
-                                override fun onCancelled(error: DatabaseError) {
-                                    Log.e("Firebase", "Quiz Fetch error", error.toException())
-
-                                }
-                            })
+                        val next = Checkpoint(checkpoint.level + 1, 1)
+                        updateCheckpointCallback(next) { additional() }
                     }
                 }
 
-        Log.d("New User", auth.currentUser.toString())
-        Log.d("New Profile", profile.toString())
-        Log.d("New Database", database.toString())
-        onCreate()
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("Firebase", "Quiz Fetch error", error.toException())
+                }
+            })
     }
 
-    abstract fun onCreate()
+    protected fun moveUserToNextQuestion(current: Checkpoint, additional: () -> Unit) {
+        Log.w("Firebase checkpoint", current.toString())
+        database.getReference("quiz/levels/${current.level - 1}/")
+            .child("questions/${current.question}")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    Log.d("Firebase", snapshot.getValue().toString())
+                    Log.d("Firebase", "Exists Snapshot: ${snapshot.exists()}")
+                    val childPath = (current.question - 1).toString()
+                    if (snapshot.exists()) {
+                        val next = Checkpoint(current.level, current.question + 1)
+                        updateCheckpointCallback(next) { additional() }
+                    } else {
+                        moveUserToNextLevel(current, additional)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("Firebase", "Quiz Fetch error", error.toException())
+                }
+
+            })
+    }
 
     protected fun deleteSignedUser() {
         if (auth.currentUser != null) {

@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.ivok.the_forgotten_bulgarian.R
 import com.ivok.the_forgotten_bulgarian.adapters.LettersListAdapter
 import com.ivok.the_forgotten_bulgarian.databinding.ActivityQuestionShowBinding
@@ -18,6 +21,7 @@ import com.ivok.the_forgotten_bulgarian.extensions.appearToast
 import com.ivok.the_forgotten_bulgarian.extensions.hideLetters
 import com.ivok.the_forgotten_bulgarian.extensions.randomBgLowercase
 import com.ivok.the_forgotten_bulgarian.facades.AuthCompatActivity
+import com.ivok.the_forgotten_bulgarian.models.Checkpoint
 import com.ivok.the_forgotten_bulgarian.models.Question
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.letter_card.view.*
@@ -86,17 +90,27 @@ class QuestionShowActivity : AuthCompatActivity<ActivityQuestionShowBinding>
 
     private fun checkIsGuessValid() {
         if (question?.answer == guessWord.toString()) {
-            val intent = Intent(this@QuestionShowActivity, QuestionCongratsActivity::class.java)
-            intent.putExtra("question", question)
-            GlobalScope.launch {
-                delay(50)
-                startActivity(intent)
-                finish()
-            }
 
+            Log.w("Firebase Profile", profile.toString())
+            Log.w("Firebase Question Level", question?.level.toString())
+            Log.w("Firebase Question Nbr", question?.number.toString())
+
+            question!!.run {
+                val currentCheckpoint = Checkpoint(level!!, number!!)
+                moveUserToNextQuestion(currentCheckpoint) {
+                    showCongratsActivity()
+                }
+            }
         } else {
             binding.validation.visibility = View.VISIBLE
         }
+    }
+
+    private fun showCongratsActivity() {
+        val intent = Intent(this@QuestionShowActivity, QuestionCongratsActivity::class.java)
+        intent.putExtra("question", question)
+        startActivity(intent)
+        finish()
     }
 
     inner class GuessingLetters : LettersListAdapter.onLetterListener {
