@@ -19,8 +19,10 @@ class MainActivity : AuthCompatActivity<ActivityMainBinding>
         super.onStart()
         val user = auth.currentUser
 
-        if (user == null) {
-            binding.buttonPlay.visibility = View.GONE
+        binding.buttonPlay.visibility = if (user == null) {
+            View.GONE
+        } else {
+            View.VISIBLE
         }
 
         with(binding.buttonLogin) {
