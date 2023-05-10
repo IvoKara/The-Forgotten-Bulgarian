@@ -1,14 +1,17 @@
 package com.ivok.the_forgotten_bulgarian.models
 
+import com.google.firebase.database.IgnoreExtraProperties
+
+@IgnoreExtraProperties
 data class User(
     val username: String? = null,
     val email: String? = null,
     val photoUri: String? = null,
     val uid: String? = null,
-    val checkpoint: Checkopoint = Checkopoint()
+    var checkpoint: Checkpoint = Checkpoint()
 ) {
 }
 
-data class Checkopoint(var level: Int, var question: Int) {
-    constructor() : this(1, 1) {}
+data class Checkpoint(var level: Int, var question: Int) {
+    constructor() : this(1, 0) {}
 }

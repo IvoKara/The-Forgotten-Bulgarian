@@ -8,12 +8,8 @@ import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.coroutineScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -22,10 +18,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import com.ivok.the_forgotten_bulgarian.adapters.LevelsListAdapter
-import com.ivok.the_forgotten_bulgarian.extensions.appearToast
 import com.ivok.the_forgotten_bulgarian.extensions.hideSoftKeyBoard
-import com.ivok.the_forgotten_bulgarian.models.Level
 import com.ivok.the_forgotten_bulgarian.models.User
 
 abstract class AuthCompatActivity<Binding : ViewDataBinding>
@@ -86,7 +79,7 @@ abstract class AuthCompatActivity<Binding : ViewDataBinding>
 
     abstract fun onCreate()
 
-    protected fun signOutUser() {
+    protected fun deleteSignedUser() {
         if (auth.currentUser != null) {
             auth.currentUser!!.delete()
             auth.signOut()

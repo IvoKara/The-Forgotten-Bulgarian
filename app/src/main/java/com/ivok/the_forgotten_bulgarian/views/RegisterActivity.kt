@@ -144,7 +144,7 @@ class RegisterActivity : AuthCompatActivity<ActivityRegisterBinding>
                 usernameTakenActions()
                 showSoftKeyBoard(binding.registerUsername)
 
-                signOutUser()
+                deleteSignedUser()
 
                 binding.run {
                     hideLoadingOverlay(progressBarLogin, loadingOverlay)
