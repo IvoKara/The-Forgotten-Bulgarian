@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.letter_card.view.*
 class LettersListAdapter(
     val context: Context,
     val items: List<Char>,
-    val listener: onLetterListener
+    val listener: onLetterListener? = null
 ) :
     RecyclerView.Adapter<LettersListAdapter.ViewHolder>() {
 
@@ -37,17 +37,21 @@ class LettersListAdapter(
         return items.size
     }
 
-    inner class ViewHolder(private val view: View, private val onLetterListener: onLetterListener) :
+    inner class ViewHolder(
+        private val view: View,
+        private val onLetterListener: onLetterListener? = null
+    ) :
         RecyclerView.ViewHolder(view), View.OnClickListener {
 
         val letter = view.letter
 
         init {
-            view.setOnClickListener(this)
+            if (onLetterListener != null)
+                view.setOnClickListener(this)
         }
 
         override fun onClick(view: View?) {
-            onLetterListener.onLetterClick(view, adapterPosition)
+            onLetterListener?.onLetterClick(view, adapterPosition)
         }
     }
 

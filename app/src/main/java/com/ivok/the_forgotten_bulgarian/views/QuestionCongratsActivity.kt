@@ -17,16 +17,14 @@ import com.ivok.the_forgotten_bulgarian.R
 import com.ivok.the_forgotten_bulgarian.adapters.LettersListAdapter
 import com.ivok.the_forgotten_bulgarian.adapters.QuestionsListAdapter
 import com.ivok.the_forgotten_bulgarian.databinding.ActivityQuestionCongratsBinding
+import com.ivok.the_forgotten_bulgarian.extensions.appearToast
 import com.ivok.the_forgotten_bulgarian.facades.AuthCompatActivity
 import com.ivok.the_forgotten_bulgarian.models.Level
 import com.ivok.the_forgotten_bulgarian.models.Question
 import com.squareup.picasso.Picasso
 
 class QuestionCongratsActivity :
-    AuthCompatActivity<ActivityQuestionCongratsBinding>(R.layout.activity_question_congrats),
-    LettersListAdapter.onLetterListener {
-
-    lateinit var nextQuestion: Question
+    AuthCompatActivity<ActivityQuestionCongratsBinding>(R.layout.activity_question_congrats) {
 
     override fun onCreate() {
         val question = intent.getParcelableExtra<Question>("question")
@@ -35,7 +33,7 @@ class QuestionCongratsActivity :
             questionAdditional.text = question?.additional
             if (question?.photoUrl != null) {
                 imageWrapper.visibility = View.VISIBLE
-                Picasso.get().load(question.photoUrl).into(questionImage)
+                Picasso.get().load(question!!.photoUrl).into(questionImage)
             } else {
                 imageWrapper.visibility = View.GONE
             }
@@ -48,42 +46,36 @@ class QuestionCongratsActivity :
                 adapter = LettersListAdapter(
                     this@QuestionCongratsActivity,
                     question!!.answer!!.toList(),
-                    this@QuestionCongratsActivity
                 )
             }
 
-            goToNextQuestion(question!!)
-
             buttonNextQuestion.setOnClickListener {
-                val intent = Intent(this@QuestionCongratsActivity, QuestionShowActivity::class.java)
-                intent.putExtra("question", nextQuestion)
-                startActivity(intent)
-                finish()
+                goToNextQuestion()
             }
         }
     }
 
-    private fun goToNextQuestion(question: Question) {
-        database.reference
-            .child("quiz/levels/${question.level}/questions/${question.number!! + 1}")
-            .get().addOnSuccessListener { snapshot ->
-                if (snapshot.exists()) {
-                    nextQuestion = snapshot.getValue<Question>() ?: Question()
-                } else {
-                    goToNextLevel(question)
+    private fun goToNextQuestion() {
+        val levelId = profile!!.checkpoint.level - 1
+        val questionId = profile!!.checkpoint.question - 1
+
+        database.getReference("quiz/levels/${levelId}")
+            .child("questions/${questionId}")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    Log.d("Firebase QC", snapshot.getValue().toString())
+                    startActivity(
+                        Intent(
+                            this@QuestionCongratsActivity,
+                            QuestionShowActivity::class.java
+                        ).putExtra("question", snapshot.getValue<Question>())
+                    )
+                    finish()
                 }
-            }.addOnFailureListener { goToNextLevel(question) }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("Firebase", "Error retrieving question", error.toException())
+                }
+            })
     }
-
-    private fun goToNextLevel(question: Question) {
-        database.reference
-            .child("quiz/levels/${question.level!! + 1}/questions/0")
-            .get().addOnSuccessListener {
-
-            }.addOnFailureListener {
-                Log.e("Error Database", it.message.toString())
-            }
-    }
-
-    override fun onLetterClick(letterView: View?, position: Int) {}
 }
