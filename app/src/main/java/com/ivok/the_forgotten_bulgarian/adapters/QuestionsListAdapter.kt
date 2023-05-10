@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.ivok.the_forgotten_bulgarian.R
 
 import com.ivok.the_forgotten_bulgarian.models.Level
@@ -37,11 +38,16 @@ class QuestionsListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.questionNumber.text = "#${position + 1}"
 
-
-        if (user.checkpoint.level >= (position + 1)) {
+        val questionNumber = user.checkpoint.question
+        if (position + 1 <= questionNumber) {
             holder.itemView.backgroundTintList =
                 AppCompatResources.getColorStateList(context, R.color.red_brown_300)
         }
+        if (position + 1 == questionNumber)
+            (holder.itemView as MaterialCardView).apply {
+                strokeWidth = 16
+                strokeColor = ContextCompat.getColor(context, R.color.antique_white_400)
+            }
     }
 
     override fun getItemCount(): Int {
@@ -59,11 +65,11 @@ class QuestionsListAdapter(
         }
 
         override fun onClick(view: View?) {
-            onQuestionListener.onLevelClick(items[adapterPosition], adapterPosition)
+            onQuestionListener.onQuestionClick(items[adapterPosition], adapterPosition)
         }
     }
 
     interface onQuestionListener {
-        fun onLevelClick(question: Question, position: Int): Unit
+        fun onQuestionClick(question: Question, position: Int): Unit
     }
 }

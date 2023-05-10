@@ -48,7 +48,7 @@ class LevelsActivity :
     }
 
     override fun onLevelClick(level: Level, position: Int) {
-        if (profile!!.checkpoint.level >= (position + 1)) {
+        if ((position + 1 <= profile!!.checkpoint.level)) {
             Log.d("LevelsAdapter", level.toString())
             val intent = Intent(this@LevelsActivity, QuestionsIndexActivity::class.java)
             intent.putExtra("levelNumber", level.number)

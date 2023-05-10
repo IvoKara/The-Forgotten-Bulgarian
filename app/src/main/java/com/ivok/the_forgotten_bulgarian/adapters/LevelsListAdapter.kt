@@ -38,10 +38,10 @@ class LevelsListAdapter(
 
         Log.d("Position", position.toString())
         holder.locked.visibility =
-            if (user.checkpoint.level < (position + 1)) {
-                View.VISIBLE
-            } else {
+            if (position + 1 <= user.checkpoint.level) {
                 View.INVISIBLE
+            } else {
+                View.VISIBLE
             }
     }
 

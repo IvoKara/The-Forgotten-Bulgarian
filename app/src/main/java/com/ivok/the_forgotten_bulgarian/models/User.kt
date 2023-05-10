@@ -13,5 +13,5 @@ data class User(
 }
 
 data class Checkpoint(var level: Int, var question: Int) {
-    constructor() : this(1, 0) {}
+    constructor() : this(1, 1) {}
 }

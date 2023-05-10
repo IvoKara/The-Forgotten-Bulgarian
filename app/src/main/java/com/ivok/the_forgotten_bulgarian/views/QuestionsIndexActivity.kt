@@ -55,8 +55,8 @@ class QuestionsIndexActivity :
             })
     }
 
-    override fun onLevelClick(question: Question, position: Int) {
-        if (profile!!.checkpoint.level >= (position + 1)) {
+    override fun onQuestionClick(question: Question, position: Int) {
+        if (position + 1 <= profile!!.checkpoint.question) {
             val intent = Intent(this@QuestionsIndexActivity, QuestionShowActivity::class.java)
             intent.putExtra("question", question)
             startActivity(intent)
