@@ -52,6 +52,8 @@ class QuestionShowActivity : AuthCompatActivity<ActivityQuestionShowBinding>
         binding.apply {
             questionText.text = question?.text
             questionHint.text = question?.hint
+            currentCheckpoint.text = "ниво ${question?.level} / въпрос ${question?.number}"
+
             if (question?.photoUrl != null) {
                 imageWrapper.visibility = View.VISIBLE
                 Picasso.get().load(question!!.photoUrl).into(questionImage)
