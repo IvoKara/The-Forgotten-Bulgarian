@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.question_card.view.*
 class QuestionsListAdapter(
     val context: Context,
     val items: List<Question>,
+    val levelNumber: Int,
     val listener: onQuestionListener
 ) :
     RecyclerView.Adapter<QuestionsListAdapter.ViewHolder>() {
@@ -42,12 +43,12 @@ class QuestionsListAdapter(
         holder.questionNumber.text = "#${position + 1}"
 
         val user = AuthCompatActivity.profile!!
-        val questionNumber = user.checkpoint.question
-        if (position + 1 <= questionNumber) {
+
+        if (user.checkpoint.isBefore(levelNumber, position)) {
             holder.itemView.backgroundTintList =
                 AppCompatResources.getColorStateList(context, R.color.red_brown_300)
         }
-        if (position + 1 == questionNumber)
+        if (user.checkpoint.isEqual(levelNumber, position + 1))
             (holder.itemView as MaterialCardView).apply {
                 strokeWidth = 16
                 strokeColor = ContextCompat.getColor(context, R.color.antique_white_400)

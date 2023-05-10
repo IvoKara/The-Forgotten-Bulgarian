@@ -40,6 +40,7 @@ class QuestionsIndexActivity :
                             adapter = QuestionsListAdapter(
                                 this@QuestionsIndexActivity,
                                 level.questions!!,
+                                levelNumber,
                                 this@QuestionsIndexActivity
                             )
                         }

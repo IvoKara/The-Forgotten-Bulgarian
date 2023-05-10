@@ -34,4 +34,19 @@ data class Checkpoint(var level: Int, var question: Int) {
         return (before.level == this.level && before.question < this.question) ||
                 (before.level < this.level)
     }
+
+    @Exclude
+    fun isBefore(level: Int, question: Int): Boolean {
+        return this.isBefore(Checkpoint(level, question))
+    }
+
+    @Exclude
+    fun isEqual(before: Checkpoint): Boolean {
+        return before.level == this.level && before.question == this.question
+    }
+
+    @Exclude
+    fun isEqual(level: Int, question: Int): Boolean {
+        return this.isEqual(Checkpoint(level, question))
+    }
 }
