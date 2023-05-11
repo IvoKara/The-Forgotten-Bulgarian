@@ -71,7 +71,7 @@ abstract class AuthCompatActivity<Binding : ViewDataBinding>
 
     override fun onStart() {
         super.onStart()
-        if (auth.currentUser != null && profile == null) {
+        if (auth.currentUser != null) {
             val username = auth.currentUser!!.displayName!!
 
             database.getReference("users").child(username)
