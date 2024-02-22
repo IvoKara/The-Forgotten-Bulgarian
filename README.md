@@ -24,7 +24,7 @@ There were plenty of them to choose from, but one shines the brightest of them a
 called "**yat**" ("_ят_" in Bulgarian) whose main role was to unite the Eastern and Western dialect speech.
 > Yes, in this small land of Bulgaria we have so many dialects that very often we don't understand each other. 😁
 
-There is so much to write about our dialects but mainly Easterners tend to use the sound **\\e\\** (like in **e**at) more in words, whereas Westerners are mostly using the sound **\\ja\\** (like in **ya**cht).
+There is so much to write about our dialects but mainly Easterners tend to use the sound **\\e\\** (like in s**e**t) more in words, whereas Westerners are mostly using the sound **\\ja\\** (like in **ya**cht).
 > For example the word "**milk**" in literary Bulgarian is "**мляко**" and you will hear Westerners saying it that way - "мл**я**ко".
 > But if you go to Eastern villages or towns in Bulgaria, you are probably going to hear people calling it "мл**е**ко". 🥛
 
