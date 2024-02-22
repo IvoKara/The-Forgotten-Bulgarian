@@ -12,7 +12,7 @@ Made as a university project 🎓 (_with the intention to be a standalone mobile
 ## Еtymology of the name
 We Bulgarians, as holding the foundations of the Slavic script, are using the Cyrillic alphabet for our writing system. 📜
 
-Every one letter in the alphabet had its own special usage, power and meaning. <br>
+Every one letter in the alphabet has its own special usage, power and meaning. <br>
 But unfortunately, several ones have dropped out of our alphabet ... (tears)
 
 My idea was to remind Bulgarian people (_most of whom don't know much about the above_) that our language is so beautiful and we have so many authentic and meaningful words 
